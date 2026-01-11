@@ -14,7 +14,13 @@ from database3 import (
 )
 from handlers3 import register_handlers
 
-TOKEN = "7789519280:AAF7pKlaOTyj5VdzTpUGFr_tALLTxH5n9bQ"
+from dotenv import load_dotenv
+
+load_dotenv()
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise RuntimeError("BOT_TOKEN not found in .env")
 ADMIN_IDS = {1071651315}
 
 async def main():
@@ -31,7 +37,7 @@ async def main():
     register_handlers(dp)
 
     # ✅ ВАЖНО: Bot в контекстном менеджере
-    async with Bot(token=TOKEN) as bot:
+    async with Bot(token=os.getenv("BOT_TOKEN")) as bot:
         await bot.delete_webhook(drop_pending_updates=True)
         await dp.start_polling(bot, drop_pending_updates=True)
 
